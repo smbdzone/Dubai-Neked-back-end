@@ -1,13 +1,11 @@
-import express from 'express';
-import { signup } from '../controllers/authController';
+import { Router } from "express";
+import { signup, login } from "../controllers/authController";
+import authMiddleware from "../middleware/authMiddleware";
 
-const router = express.Router();
+const router = Router();
 
-router.post('/signup', (req, res) => {
-  signup(req, res).catch(err => {
-    console.error(err);
-    res.status(500).send('Internal Server Error');
-  });
-});
+// Auth routes
+router.post("/signup", signup);
+router.post("/login", authMiddleware, login);
 
 export default router;
